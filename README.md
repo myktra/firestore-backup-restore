@@ -150,6 +150,7 @@ export interface IImportOptions {
   geos?: string[]
   autoParseGeos?: boolean
   refs?: string[]
+  autoParseRefs?: boolean
   showLogs?: boolean
 }
 ```
@@ -175,6 +176,16 @@ const options = {
   autoParseDates: true // use this one in stead of dates: [...]
   geos: ['location', 'locations'],
   refs: ['refKey'],
+};
+```
+
+Similarly, if you'd rather not specify `refs`, you can use another parameter to transform fields to document references.
+
+```javascript
+// Import options with auto parse ref
+const options = {
+  autoParseRefs: true // use this one instead of refs: [...]
+  geos: ['location', 'locations']
 };
 ```
 
@@ -265,6 +276,12 @@ The JSON is formated as below. The collection name is **test**. **first-key** an
       "arrayRef": ["test/second-key", "test/second-key"],
       "nestedRef": {
         "secondRef": "test/second-key"
+      },
+      "autoRef": { "_path": "test/second-key" },
+      "autoArrayRef": [{ "_path": "test/second-key" }, { "_path": "test/second-key" }],
+      "nestedAutoRef": {
+        "autoRef": { "_path": "test/second-key" },
+        "autoArrayRef": [{ "_path": "test/second-key" }, { "_path": "test/second-key" }]
       },
       "subCollection": {
         "test/first-key/details": {

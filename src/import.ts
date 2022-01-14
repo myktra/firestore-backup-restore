@@ -8,6 +8,7 @@ import {
   parseAndConvertDates,
   makeGeoPoint,
   parseAndConvertGeos,
+  parseAndConvertRefs
 } from './helper'
 
 /**
@@ -178,6 +179,10 @@ const startUpdating = (
         }
       }
     })
+  }
+
+  if (options.autoParseRefs) {
+    parseAndConvertRefs(data)
   }
 
   // Enter geo value

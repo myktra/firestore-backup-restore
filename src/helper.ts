@@ -7,6 +7,7 @@ export interface IImportOptions {
   geos?: string[]
   autoParseGeos?: boolean
   refs?: string[]
+  autoParseRefs?: boolean
   showLogs?: boolean
 }
 
@@ -42,6 +43,17 @@ export const makeTime = (firebaseTimestamp: {
     return null
   }
   return new Date(firebaseTimestamp._seconds * 1000)
+}
+
+/**
+ * Returns a document reference
+ * @param ref 
+ */
+ export const makeRef = (ref: { _path: string }) => {
+  if (!ref || !ref._path) {
+    return null
+  }
+  return admin.firestore().doc(ref._path)
 }
 
 export const getPath = (obj?: { path?: string }) => {
@@ -117,4 +129,16 @@ export function parseAndConvertGeos(data: object) {
     }
     return null;
   })
+}
+
+export function parseAndConvertRefs(data: object) {
+  traverseObjects(data, value => {
+    const isRef =
+      typeof value === "object" &&
+      value.hasOwnProperty("_path");
+    if (isRef) {
+      return makeRef(value);
+    }
+    return null;
+  })  
 }

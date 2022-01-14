@@ -50,6 +50,12 @@
       "nestedRef": {
         "secondRef": "test/second-key"
       },
+      "autoRef": { "_path": "test/second-key" },
+      "autoArrayRef": [{ "_path": "test/second-key" }, { "_path": "test/second-key" }],
+      "nestedAutoRef": {
+        "autoRef": { "_path": "test/second-key" },
+        "autoArrayRef": [{ "_path": "test/second-key" }, { "_path": "test/second-key" }]
+      },
       "subCollection": {
         "test/first-key/details": {
           "33J2A10u5902CXagoBP6": {

@@ -133,6 +133,20 @@ describe('initializeApp function test', () => {
     ).is.equal('hello')
   })
 
+  it('Restore data with document id - with autoParseRefs', async () => {
+    let status = await restore('test/import-to-firestore.json', {
+      dates: ['date', 'schedule.time', 'three.level.time'],
+      geos: ['location', 'locations', 'locationNested.geopoints'],
+      autoParseRefs: true
+    })
+    expect(status.status).ok
+
+    const result = await backup('test')
+    expect(typeof result['test']['first-key'].autoRef).is.equal('object')
+    expect(typeof result['test']['first-key'].nestedAutoRef.autoRef).is.equal('object')
+    expect(typeof result['test']['first-key'].nestedAutoRef.autoArrayRef[0]).is.equal('object')
+  })
+
   it('Restore data as an array without document id', async () => {
     let status = await restore('test/import-array-to-firestore.json', {
       showLogs: true,
